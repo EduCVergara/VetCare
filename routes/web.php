@@ -5,11 +5,16 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
 
 Route::get('/', fn() => redirect()->route('dashboard'));
 
-Route::middleware(['auth', 'verified'])->group(function () {
+$authMiddleware = app()->environment('local')
+    ? ['auth']
+    : ['auth', 'verified'];
+
+Route::middleware($authMiddleware)->group(function () {
 
     Route::middleware('solo.admin')->group(function () {
         Route::resource('usuarios', UsuarioController::class)
@@ -17,10 +22,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
-    Route::get('/profile/edit', fn() => view('profile.edit'))->name('profile.edit');
-    Route::post('/profile/edit', fn() => view('profile.edit'))->name('profile.update');
-    Route::get('/profile/partials/update-password-form', fn() => view('profile.partials.update-password-form'))->name('profile.update');
-    Route::get('/profile/partials/delete-user-form', fn() => view('profile.partials.delete-user-form'))->name('profile.delete-user');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('clientes', ClienteController::class)
         ->except(['show']);

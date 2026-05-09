@@ -11,8 +11,21 @@ class CitaController extends Controller
 {
     public function index()
     {
-        $citas = Cita::with(['cliente', 'paciente'])->latest('fecha_hora')->get();
-        return view('citas.index', compact('citas'));
+        $citas = Cita::with(['cliente', 'paciente'])
+            ->orderBy('fecha_hora')
+            ->get();
+
+        $citasPorDia = $citas->groupBy(fn($c) => $c->fecha_hora->format('Y-m-d'))
+            ->map(fn($grupo) => $grupo->map(fn($c) => [
+                'id'       => $c->id,
+                'hora'     => $c->fecha_hora->format('H:i'),
+                'paciente' => $c->paciente->nombre,
+                'cliente'  => $c->cliente->nombre,
+                'estado'   => $c->estado,
+                'motivo'   => $c->motivo,
+            ])->values());
+
+        return view('citas.index', compact('citasPorDia'));
     }
 
     public function create()

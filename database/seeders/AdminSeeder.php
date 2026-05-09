@@ -10,13 +10,15 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'nombre'   => 'Administrador',
-            'email'    => 'admin@vetcare.cl',
-            'telefono' => null,
-            'cargo'    => 'Administrador del Sistema',
-            'rol'      => 'admin',
-            'password' => Hash::make('password'),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'e.constanciovergara@gmail.com'],
+            [
+                'nombre'   => 'Administrador',
+                'telefono' => null,
+                'cargo'    => 'Administrador del Sistema',
+                'rol'      => 'admin',
+                'password' => Hash::make('password'),
+            ]
+        );
     }
 }

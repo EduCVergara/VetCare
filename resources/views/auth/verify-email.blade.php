@@ -1,30 +1,31 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+    <h2 class="text-lg font-medium text-gray-700 mb-3">Verifica tu correo</h2>
+
+    <div class="mb-4 text-sm text-gray-500">
+        Te enviamos un correo con un enlace de verificación. Necesitas confirmarlo antes de entrar al sistema.
     </div>
 
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+        <div class="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm">
+            Enviamos un nuevo enlace de verificación a tu correo electrónico.
         </div>
     @endif
 
-    <div class="mt-4 flex items-center justify-between">
+    <div class="mt-6 flex items-center justify-between gap-4">
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
 
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
-            </div>
+            <button type="submit" class="px-4 py-2.5 rounded-lg text-white text-sm font-medium transition"
+                style="background: linear-gradient(135deg, #7F77DD, #534AB7)">
+                Reenviar correo
+            </button>
         </form>
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
 
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
+            <button type="submit" class="text-sm text-gray-500 hover:text-gray-700 transition">
+                Cerrar sesión
             </button>
         </form>
     </div>

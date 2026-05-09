@@ -4,15 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VetCare — Iniciar Sesión</title>
+    <title>VetCare - Iniciar Sesión</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50 flex items-center justify-center">
 
     <div class="w-full max-w-md px-6">
-
-        {{-- Logo --}}
         <div class="flex flex-col items-center mb-8">
             <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-3"
                 style="background: linear-gradient(135deg, #7F77DD, #1D9E75)">
@@ -25,9 +23,14 @@
             <p class="text-sm text-gray-400">Sistema de Gestión Veterinaria</p>
         </div>
 
-        {{-- Card --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
             <h2 class="text-lg font-medium text-gray-700 mb-6">Iniciar Sesión</h2>
+
+            @if(session('status'))
+                <div class="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm">
+                    {{ session('status') }}
+                </div>
+            @endif
 
             @if($errors->any())
                 <div class="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
@@ -54,6 +57,15 @@
                     <input type="checkbox" name="remember" id="remember" class="rounded">
                     <label for="remember" class="text-sm text-gray-500">Recordarme</label>
                 </div>
+
+                @if(Route::has('password.request'))
+                    <div class="flex justify-end">
+                        <a href="{{ route('password.request') }}"
+                            class="text-sm text-purple-600 hover:text-purple-700 transition">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
+                @endif
 
                 <button type="submit" class="w-full py-2.5 rounded-lg text-white text-sm font-medium transition"
                     style="background: linear-gradient(135deg, #7F77DD, #534AB7)">

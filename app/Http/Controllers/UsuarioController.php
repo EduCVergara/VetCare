@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UsuarioController extends Controller
 {
@@ -22,16 +23,16 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string|max:255',
+            'nombre'   => 'required|string|max:255',
             'email'    => 'required|email|unique:usuarios,email',
             'telefono' => 'nullable|string|max:20',
             'cargo'    => 'nullable|string|max:255',
-            'rol'      => 'required|in:admin,veterinario,recepcionista',
+            'rol'      => 'required|in:admin,veterinario,recepcionista,visor',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        User::create([
-            'name'     => $request->name,
+        $usuario = User::create([
+            'nombre'   => $request->nombre,
             'email'    => $request->email,
             'telefono' => $request->telefono,
             'cargo'    => $request->cargo,
@@ -39,8 +40,10 @@ class UsuarioController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $usuario->sendEmailVerificationNotification();
+
         return redirect()->route('usuarios.index')
-            ->with('success', 'Usuario creado correctamente.');
+            ->with('success', 'Usuario creado correctamente. Se envió un correo de verificación.');
     }
 
     public function edit(User $usuario)
@@ -51,24 +54,35 @@ class UsuarioController extends Controller
     public function update(Request $request, User $usuario)
     {
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:usuarios,email,' . $usuario->id,
+            'nombre'   => 'required|string|max:255',
+            'email'    => ['required', 'email', Rule::unique('usuarios', 'email')->ignore($usuario->id)],
             'telefono' => 'nullable|string|max:20',
             'cargo'    => 'nullable|string|max:255',
-            'rol'      => 'required|in:admin,veterinario,recepcionista',
+            'rol'      => 'required|in:admin,veterinario,recepcionista,visor',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         $data = $request->except('password', 'password_confirmation');
+        $emailCambio = $request->email !== $usuario->email;
 
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
 
+        if ($emailCambio) {
+            $data['email_verified_at'] = null;
+        }
+
         $usuario->update($data);
 
+        if ($emailCambio) {
+            $usuario->sendEmailVerificationNotification();
+        }
+
         return redirect()->route('usuarios.index')
-            ->with('success', 'Usuario actualizado correctamente.');
+            ->with('success', $emailCambio
+                ? 'Usuario actualizado correctamente. Se envió un nuevo correo de verificación.'
+                : 'Usuario actualizado correctamente.');
     }
 
     public function destroy(User $usuario)

@@ -18,7 +18,7 @@
 <a href="{{ route($route) }}" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition
           {{ $active
     ? 'text-white font-medium'
-    : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700' }}" @if($active)
+    : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100' }}" @if($active)
     style="background: linear-gradient(135deg, #7F77DD, #534AB7)" @endif>
     <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
         <path d="{{ $icons[$icon] }}" />
