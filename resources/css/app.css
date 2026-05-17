@@ -30,6 +30,10 @@
         box-shadow: none;
     }
 
+    .ts-wrapper.is-invalid .ts-control {
+        @apply border-red-300;
+    }
+
     .ts-wrapper.disabled .ts-control {
         @apply bg-gray-50 text-gray-400 opacity-100;
     }
@@ -63,7 +67,7 @@
 
     .dark .ts-wrapper.single .ts-control,
     .dark .ts-wrapper.multi .ts-control {
-        @apply border-slate-700 bg-slate-900 text-slate-100;
+        @apply border-slate-600 bg-slate-800 text-slate-100 rounded-2xl px-4 h-[inherit] items-center;
     }
 
     .dark .ts-wrapper.focus .ts-control,
@@ -83,10 +87,301 @@
     }
 
     .dark .ts-dropdown {
-        @apply border-slate-700 bg-slate-900 text-slate-100;
+        @apply border-slate-700 bg-slate-900 text-slate-100 rounded-b-2xl;
     }
 
     .dark .ts-dropdown .active {
-        @apply bg-violet-500/20 text-violet-200;
+        @apply bg-violet-500/20 text-violet-200 last-of-type:rounded-b-2xl;
+    }
+
+    .vet-login-shell {
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+
+    .vet-login-backdrop {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        background:
+            linear-gradient(125deg, rgba(20, 184, 166, 0.16), transparent 32%),
+            linear-gradient(235deg, rgba(132, 204, 22, 0.16), transparent 34%),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(220, 252, 231, 0.5));
+    }
+
+    .vet-login-backdrop::before,
+    .vet-login-backdrop::after {
+        content: "";
+        position: absolute;
+        inset: -18%;
+        background-image:
+            linear-gradient(115deg, transparent 0 22%, rgba(13, 148, 136, 0.2) 22% 24%, transparent 24% 42%, rgba(124, 58, 237, 0.13) 42% 44%, transparent 44% 100%),
+            repeating-linear-gradient(90deg, rgba(15, 23, 42, 0.045) 0 1px, transparent 1px 72px);
+        transform: rotate(-7deg);
+        animation: vet-login-drift 18s ease-in-out infinite alternate;
+        pointer-events: none;
+    }
+
+    .vet-login-backdrop::after {
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: linear-gradient(to bottom, transparent, black 24%, black 72%, transparent);
+        animation-duration: 24s;
+        opacity: 0.6;
+    }
+
+    .dark .vet-login-backdrop {
+        background:
+            linear-gradient(125deg, rgba(20, 184, 166, 0.16), transparent 34%),
+            linear-gradient(235deg, rgba(99, 102, 241, 0.18), transparent 36%),
+            linear-gradient(180deg, #071014, #0c171c 52%, #081114);
+    }
+
+    .dark .vet-login-backdrop::before {
+        background-image:
+            linear-gradient(115deg, transparent 0 20%, rgba(45, 212, 191, 0.16) 20% 22%, transparent 22% 44%, rgba(167, 139, 250, 0.12) 44% 46%, transparent 46% 100%),
+            repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 76px);
+    }
+
+    .dark .vet-login-backdrop::after {
+        background-image:
+            linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    }
+
+    .vet-login-panel,
+    .vet-login-story {
+        animation: vet-login-rise 720ms cubic-bezier(0.2, 0.85, 0.24, 1) both;
+    }
+
+    .vet-login-story {
+        animation-delay: 120ms;
+    }
+
+    .vet-brand-mark {
+        @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-white shadow-lg shadow-teal-800/20;
+        background: linear-gradient(135deg, #0f766e, #14b8a6 46%, #84cc16);
+    }
+
+    .dark .vet-brand-mark {
+        background: linear-gradient(135deg, #22d3ee, #14b8a6 48%, #a78bfa);
+        box-shadow: 0 18px 48px rgba(20, 184, 166, 0.22);
+    }
+
+    .vet-theme-button {
+        @apply flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white/80 text-slate-600 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-teal-200 hover:text-teal-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-teal-500/20 dark:border-white/10 dark:bg-white/[0.06] dark:text-slate-300 dark:hover:border-teal-300/30 dark:hover:text-teal-200;
+    }
+
+    .vet-login-metric {
+        @apply rounded-2xl border border-white/70 bg-white/70 p-4 backdrop-blur dark:border-white/10 dark:bg-white/[0.05];
+    }
+
+    .vet-login-metric span {
+        @apply text-lg font-semibold text-slate-950 dark:text-white;
+    }
+
+    .vet-login-metric p {
+        @apply mt-1 text-xs text-slate-500 dark:text-slate-400;
+    }
+
+    .vet-login-alert {
+        @apply mb-5 rounded-2xl border px-4 py-3 text-sm;
+    }
+
+    .vet-login-alert-success {
+        @apply border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-200;
+    }
+
+    .vet-login-alert-danger {
+        @apply border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-400/20 dark:bg-rose-400/10 dark:text-rose-200;
+    }
+
+    .vet-field-group {
+        @apply space-y-2;
+    }
+
+    .vet-login-label {
+        @apply text-sm font-semibold text-slate-700 dark:text-slate-200;
+    }
+
+    .vet-login-input-wrap {
+        @apply relative;
+    }
+
+    .vet-login-input-icon {
+        @apply pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 transition duration-300 dark:text-teal-500;
+    }
+
+    .vet-login-input {
+        @apply h-12 w-full rounded-2xl border border-slate-200 bg-white/90 pl-12 pr-4 text-sm text-slate-900 shadow-sm transition duration-300 placeholder:text-slate-400 hover:border-teal-200 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/15 dark:border-white/10 dark:bg-white/[0.055] dark:text-white dark:placeholder:text-slate-500 dark:hover:border-teal-300/30 dark:focus:border-teal-300 dark:focus:ring-teal-300/15;
+    }
+
+    .vet-login-input:focus + .vet-password-toggle,
+    .vet-login-input-wrap:focus-within .vet-login-input-icon {
+        @apply text-teal-600 dark:text-teal-300;
+    }
+
+    .vet-password-toggle {
+        @apply absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-xl text-slate-400 transition duration-300 hover:bg-slate-100 hover:text-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-500/20 dark:text-teal-500 dark:hover:bg-white/10 dark:hover:text-teal-200;
+    }
+
+    .vet-login-submit {
+        @apply flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition duration-300 hover:-translate-y-0.5 hover:bg-teal-700 hover:shadow-xl hover:shadow-teal-900/20 focus:outline-none focus:ring-4 focus:ring-teal-500/25 dark:bg-teal-300 dark:text-slate-950 dark:shadow-teal-950/30 dark:hover:bg-emerald-200;
+    }
+
+    .vet-dashboard-surface {
+        @apply rounded-[26px] border border-white/75 bg-white/80 shadow-xl shadow-teal-900/5 backdrop-blur-xl transition duration-300 dark:border-white/10 dark:bg-white/[0.045] dark:shadow-black/20;
+    }
+
+    .vet-dashboard-card {
+        @apply rounded-[22px] border border-slate-200/70 bg-white/85 p-5 shadow-sm shadow-teal-900/5 backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-xl hover:shadow-teal-900/10 dark:border-white/10 dark:bg-white/[0.045] dark:hover:border-teal-300/30 dark:hover:shadow-black/30;
+        animation: vet-login-rise 620ms cubic-bezier(0.2, 0.85, 0.24, 1) both;
+    }
+
+    .vet-dashboard-icon {
+        @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border shadow-sm;
+    }
+
+    .vet-dashboard-section-title {
+        @apply text-sm font-semibold text-slate-900 dark:text-white;
+    }
+
+    .vet-dashboard-muted {
+        @apply text-sm text-slate-500 dark:text-slate-400;
+    }
+
+    .vet-dashboard-link {
+        @apply text-xs font-semibold text-teal-700 transition hover:text-teal-600 dark:text-teal-300 dark:hover:text-teal-200;
+    }
+
+    .vet-dashboard-row {
+        @apply flex items-center gap-3 rounded-2xl border border-transparent px-3 py-3 transition duration-300 hover:border-teal-100 hover:bg-teal-50/50 dark:hover:border-teal-300/10 dark:hover:bg-white/[0.035];
+    }
+
+    .vet-status-badge {
+        @apply rounded-full px-2.5 py-1 text-xs font-semibold;
+    }
+
+    .vet-empty-state {
+        @apply rounded-[22px] border border-dashed border-slate-200 bg-slate-50/70 px-4 py-10 text-center text-sm text-slate-400 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-500;
+    }
+
+    .vet-sidebar {
+        @apply relative flex min-h-screen w-64 flex-shrink-0 flex-col border-r border-white/75 bg-white/80 shadow-xl shadow-teal-900/5 backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/55 dark:shadow-black/25;
+    }
+
+    .vet-sidebar::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            linear-gradient(145deg, rgba(20, 184, 166, 0.11), transparent 34%),
+            linear-gradient(25deg, rgba(132, 204, 22, 0.08), transparent 38%);
+        opacity: 0.9;
+    }
+
+    .dark .vet-sidebar::before {
+        background:
+            linear-gradient(145deg, rgba(20, 184, 166, 0.12), transparent 35%),
+            linear-gradient(25deg, rgba(167, 139, 250, 0.1), transparent 40%);
+    }
+
+    .vet-sidebar-link {
+        @apply relative flex items-center gap-3 rounded-2xl border px-3 py-2.5 text-sm font-semibold transition duration-300 focus:outline-none focus:ring-4 focus:ring-teal-500/15;
+    }
+
+    .vet-sidebar-link-active {
+        @apply border-slate-950 bg-slate-950 text-white shadow-lg shadow-slate-900/15 dark:border-teal-300 dark:bg-teal-300 dark:text-slate-950 dark:shadow-teal-950/20;
+    }
+
+    .vet-sidebar-link-idle {
+        @apply border-transparent text-slate-500 hover:-translate-y-0.5 hover:border-teal-100 hover:bg-white/75 hover:text-slate-900 hover:shadow-sm dark:text-slate-400 dark:hover:border-teal-300/15 dark:hover:bg-white/[0.055] dark:hover:text-white;
+    }
+
+    .vet-sidebar-icon {
+        @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition duration-300;
+    }
+
+    .vet-sidebar-link-active .vet-sidebar-icon {
+        @apply bg-white/10 text-white dark:bg-slate-950/10 dark:text-slate-950;
+    }
+
+    .vet-sidebar-link-idle .vet-sidebar-icon {
+        @apply bg-slate-100 text-slate-400 group-hover:bg-teal-50 group-hover:text-teal-700 dark:bg-white/[0.045] dark:text-teal-500 dark:group-hover:bg-teal-300/10 dark:group-hover:text-teal-200;
+    }
+
+    .vet-app-card {
+        @apply rounded-[24px] border border-white/75 bg-white/80 shadow-xl shadow-teal-900/5 backdrop-blur-xl transition duration-300 dark:border-white/10 dark:bg-white/[0.045] dark:shadow-black/20;
+    }
+
+    .vet-app-card-hover {
+        @apply hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-xl hover:shadow-teal-900/10 dark:hover:border-teal-300/30 dark:hover:shadow-black/30;
+    }
+
+    .vet-app-label {
+        @apply text-sm font-semibold text-slate-700 dark:text-slate-200;
+    }
+
+    .vet-app-input {
+        @apply h-12 w-full rounded-2xl border border-slate-200 bg-white/90 text-sm text-slate-900 shadow-sm transition duration-300 placeholder:text-slate-400 hover:border-teal-200 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/15 dark:border-white/10 dark:bg-white/[0.055] dark:text-white dark:placeholder:text-slate-500 dark:hover:border-teal-300/30 dark:focus:border-teal-300 dark:focus:ring-teal-300/15;
+    }
+
+    .vet-app-input-icon {
+        @apply pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 transition duration-300 dark:text-teal-500;
+    }
+
+    .vet-app-input-wrap:focus-within .vet-app-input-icon {
+        @apply text-teal-600 dark:text-teal-300;
+    }
+
+    .vet-app-button-primary {
+        @apply inline-flex h-11 items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 text-sm font-semibold text-white shadow-lg shadow-slate-900/15 transition duration-300 hover:-translate-y-0.5 hover:bg-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-500/20 dark:bg-teal-300 dark:text-slate-950 dark:hover:bg-emerald-200;
+    }
+
+    .vet-app-button-secondary {
+        @apply inline-flex h-11 items-center justify-center rounded-2xl border border-slate-200 bg-white/70 px-4 text-sm font-semibold text-slate-600 transition duration-300 hover:-translate-y-0.5 hover:border-teal-200 hover:text-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-500/15 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-300 dark:hover:border-teal-300/30 dark:hover:text-teal-200;
+    }
+
+    .vet-app-icon-button {
+        @apply flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition duration-300 hover:bg-teal-50 hover:text-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-500/15 dark:text-slate-500 dark:hover:bg-teal-300/10 dark:hover:text-teal-200;
+    }
+
+    .vet-app-danger-button {
+        @apply flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition duration-300 hover:bg-rose-50 hover:text-rose-500 focus:outline-none focus:ring-4 focus:ring-rose-500/10 dark:text-slate-500 dark:hover:bg-rose-400/10 dark:hover:text-rose-300;
+    }
+}
+
+@keyframes vet-login-rise {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes vet-login-drift {
+    from {
+        transform: translate3d(-1.5%, -1%, 0) rotate(-7deg);
+    }
+
+    to {
+        transform: translate3d(1.5%, 1%, 0) rotate(-5deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vet-login-panel,
+    .vet-login-story,
+    .vet-dashboard-card,
+    .vet-login-backdrop::before,
+    .vet-login-backdrop::after {
+        animation: none;
     }
 }

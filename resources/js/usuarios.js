@@ -1,5 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('buscar-usuarios');
+    const selRol = document.getElementById('sel-rol');
+
+    if (selRol && !selRol.tomselect) {
+        new TomSelect(selRol, {
+            placeholder: 'Seleccionar rol...',
+            allowEmptyOption: true,
+            create: false,
+        });
+    }
 
     if (!input) {
         return;

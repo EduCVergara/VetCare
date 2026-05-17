@@ -14,17 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // TomSelect en selects de formulario
-    const selCliente = document.getElementById('sel-cliente');
+    const selCliente = document.getElementById('sel-paciente-cliente');
     const selEspecie = document.getElementById('sel-especie');
 
-    if (selCliente) {
+    if (selCliente && !selCliente.tomselect) {
         new TomSelect(selCliente, {
             placeholder: 'Seleccionar cliente...',
             allowEmptyOption: true,
         });
     }
 
-    if (selEspecie) {
+    if (selEspecie && !selEspecie.tomselect) {
         new TomSelect(selEspecie, {
             placeholder: 'Seleccionar especie...',
             allowEmptyOption: true,

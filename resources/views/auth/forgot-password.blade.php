@@ -1,30 +1,38 @@
 <x-guest-layout>
-    <h2 class="text-lg font-medium text-gray-700 mb-3">Recuperar contraseña</h2>
-
-    <div class="mb-4 text-sm text-gray-500">
-        Ingresa tu correo electrónico y te enviaremos un enlace para crear una nueva contraseña.
+    <div class="mb-8">
+        <p class="text-sm font-semibold text-teal-700 dark:text-teal-300">Recuperación</p>
+        <h1 class="mt-2 text-3xl font-semibold text-slate-950 dark:text-white">Restablece tu contraseña</h1>
+        <p class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
+            Ingresa tu correo y te enviaremos un enlace para crear una nueva.
+        </p>
     </div>
 
-    <x-auth-session-status class="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm" :status="session('status')" />
+    <x-auth-session-status class="vet-login-alert vet-login-alert-success" :status="session('status')" />
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <form method="POST" action="{{ route('password.email') }}" class="space-y-5">
         @csrf
 
-        <div>
-            <x-input-label for="email" :value="__('Correo electrónico')" />
-            <x-text-input id="email"
-                class="block mt-1 w-full rounded-lg border-gray-200 focus:border-purple-400 focus:ring-purple-400"
-                type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="vet-field-group">
+            <label for="email" class="vet-login-label">Correo electrónico</label>
+            <div class="vet-login-input-wrap">
+                <svg class="vet-login-input-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path
+                        d="M4.5 5.25h15A2.25 2.25 0 0 1 21.75 7.5v9a2.25 2.25 0 0 1-2.25 2.25h-15A2.25 2.25 0 0 1 2.25 16.5v-9A2.25 2.25 0 0 1 4.5 5.25Zm0 1.5a.75.75 0 0 0-.75.75v.33l8.25 4.95 8.25-4.95V7.5a.75.75 0 0 0-.75-.75h-15Zm15.75 2.83-7.86 4.72a.75.75 0 0 1-.78 0L3.75 9.58v6.92c0 .41.34.75.75.75h15c.41 0 .75-.34.75-.75V9.58Z" />
+                </svg>
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
+                    autocomplete="username" class="vet-login-input dark:[color-scheme:dark]"
+                    placeholder="nombre@vetcare.cl">
+            </div>
+            <x-input-error :messages="$errors->get('email')" class="mt-2 text-sm text-rose-500 dark:text-rose-300" />
         </div>
 
-        <div class="flex items-center justify-between mt-6">
-            <a href="{{ route('login') }}" class="text-sm text-gray-500 hover:text-gray-700 transition">
-                Volver al inicio de sesión
+        <div class="flex items-center justify-between gap-4 pt-1">
+            <a href="{{ route('login') }}"
+                class="text-sm font-semibold text-slate-500 transition hover:text-teal-700 dark:text-slate-400 dark:hover:text-teal-200">
+                Volver
             </a>
 
-            <button type="submit" class="px-4 py-2.5 rounded-lg text-white text-sm font-medium transition"
-                style="background: linear-gradient(135deg, #7F77DD, #534AB7)">
+            <button type="submit" class="vet-login-submit w-auto px-5">
                 Enviar enlace
             </button>
         </div>

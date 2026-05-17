@@ -38,12 +38,17 @@ class UsuarioController extends Controller
             'cargo'    => $request->cargo,
             'rol'      => $request->rol,
             'password' => Hash::make($request->password),
+            'must_change_password' => true,
         ]);
 
-        $usuario->sendEmailVerificationNotification();
+        if (config('vetcare.features.email_verification')) {
+            $usuario->sendEmailVerificationNotification();
+        }
 
         return redirect()->route('usuarios.index')
-            ->with('success', 'Usuario creado correctamente. Se envió un correo de verificación.');
+            ->with('success', config('vetcare.features.email_verification')
+                ? 'Usuario creado correctamente. Se envio un correo de verificacion.'
+                : 'Usuario creado correctamente.');
     }
 
     public function edit(User $usuario)
@@ -75,13 +80,13 @@ class UsuarioController extends Controller
 
         $usuario->update($data);
 
-        if ($emailCambio) {
+        if ($emailCambio && config('vetcare.features.email_verification')) {
             $usuario->sendEmailVerificationNotification();
         }
 
         return redirect()->route('usuarios.index')
-            ->with('success', $emailCambio
-                ? 'Usuario actualizado correctamente. Se envió un nuevo correo de verificación.'
+            ->with('success', $emailCambio && config('vetcare.features.email_verification')
+                ? 'Usuario actualizado correctamente. Se envio un nuevo correo de verificacion.'
                 : 'Usuario actualizado correctamente.');
     }
 

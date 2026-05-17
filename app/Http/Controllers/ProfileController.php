@@ -37,6 +37,25 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+    public function updateTwoFactor(Request $request): RedirectResponse
+    {
+        if (! config('vetcare.features.two_factor_auth')) {
+            return Redirect::route('profile.edit')->with('status', 'two-factor-disabled-by-config');
+        }
+
+        $validated = $request->validate([
+            'two_factor_enabled' => ['nullable', 'boolean'],
+        ]);
+
+        $request->user()->forceFill([
+            'two_factor_enabled' => (bool) ($validated['two_factor_enabled'] ?? false),
+        ])->save();
+
+        $request->session()->forget('two_factor_confirmed');
+
+        return Redirect::route('profile.edit')->with('status', 'two-factor-updated');
+    }
+
     /**
      * Delete the user's account.
      */

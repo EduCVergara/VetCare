@@ -25,6 +25,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'nombre',
         'email',
         'password',
+        'must_change_password',
+        'two_factor_enabled',
         'telefono',
         'cargo',
         'rol',
@@ -50,6 +52,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'must_change_password' => 'boolean',
+            'two_factor_enabled' => 'boolean',
         ];
     }
 

@@ -1,29 +1,32 @@
 <x-app-layout>
-    <x-slot name="header">Nuevo Paciente</x-slot>
+    <x-slot name="header">Nuevo paciente</x-slot>
 
-    <div class="max-w-2xl">
-        <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <form action="{{ route('pacientes.store') }}" method="POST" class="space-y-5">
+    <div class="max-w-3xl space-y-6">
+        <section class="vet-dashboard-surface p-5">
+            <p class="text-sm font-semibold text-teal-700 dark:text-teal-300">Nuevo registro</p>
+            <h2 class="mt-2 text-3xl font-semibold text-slate-950 dark:text-white">Agregar paciente</h2>
+            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                Asocia la mascota a su tutor y guarda los datos clinicos iniciales.
+            </p>
+        </section>
+
+        <section class="vet-app-card p-6">
+            <form action="{{ route('pacientes.store') }}" method="POST" class="space-y-6">
                 @csrf
 
-                <div class="grid grid-cols-2 gap-4">
-
-                    {{-- Nombre --}}
+                <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1.5">Nombre <span
-                                class="text-red-400">*</span></label>
-                        <input type="text" name="nombre" value="{{ old('nombre') }}"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300 @error('nombre') border-red-300 @enderror"
-                            required>
-                        @error('nombre')<p class="text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
+                        <label for="nombre" class="vet-app-label">Nombre <span class="text-rose-500">*</span></label>
+                        <input id="nombre" type="text" name="nombre" value="{{ old('nombre') }}"
+                            class="vet-app-input mt-2 @error('nombre') border-rose-300 dark:border-rose-400/60 @enderror"
+                            placeholder="Nombre del paciente" required>
+                        @error('nombre')<p class="mt-2 text-sm text-rose-500 dark:text-rose-300">{{ $message }}</p>@enderror
                     </div>
 
-                    {{-- Dueño --}}
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1.5">Dueño <span
-                                class="text-red-400">*</span></label>
-                        <select name="cliente_id"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300 @error('cliente_id') border-red-300 @enderror"
+                        <label for="sel-paciente-cliente" class="vet-app-label">Tutor <span class="text-rose-500">*</span></label>
+                        <select name="cliente_id" id="sel-paciente-cliente"
+                            class="vet-app-input mt-2 dark:[color-scheme:dark] @error('cliente_id') border-rose-300 dark:border-rose-400/60 @enderror"
                             required>
                             <option value="">Seleccionar cliente...</option>
                             @foreach($clientes as $cliente)
@@ -32,15 +35,13 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('cliente_id')<p class="text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
+                        @error('cliente_id')<p class="mt-2 text-sm text-rose-500 dark:text-rose-300">{{ $message }}</p>@enderror
                     </div>
 
-                    {{-- Especie --}}
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1.5">Especie <span
-                                class="text-red-400">*</span></label>
+                        <label for="sel-especie" class="vet-app-label">Especie <span class="text-rose-500">*</span></label>
                         <select name="especie" id="sel-especie"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300"
+                            class="vet-app-input mt-2 dark:[color-scheme:dark] @error('especie') border-rose-300 dark:border-rose-400/60 @enderror"
                             required>
                             <option value="">Seleccionar...</option>
                             @foreach(['Perro', 'Gato', 'Ave', 'Otro'] as $especie)
@@ -49,63 +50,51 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('especie')<p class="text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
+                        @error('especie')<p class="mt-2 text-sm text-rose-500 dark:text-rose-300">{{ $message }}</p>@enderror
                     </div>
 
-                    {{-- Raza --}}
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1.5">Raza</label>
-                        <input type="text" name="raza" value="{{ old('raza') }}"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300"
-                            placeholder="Ej: Labrador, Siamés...">
+                        <label for="raza" class="vet-app-label">Raza</label>
+                        <input id="raza" type="text" name="raza" value="{{ old('raza') }}"
+                            class="vet-app-input mt-2" placeholder="Ej: Labrador, Siames">
                     </div>
 
-                    {{-- Edad --}}
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1.5">Edad (años)</label>
-                        <input type="number" name="edad" value="{{ old('edad') }}" min="0"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300">
+                        <label for="edad" class="vet-app-label">Edad (anos)</label>
+                        <input id="edad" type="number" name="edad" value="{{ old('edad') }}" min="0"
+                            class="vet-app-input mt-2">
                     </div>
 
-                    {{-- Peso --}}
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1.5">Peso (kg)</label>
-                        <input type="number" name="peso" value="{{ old('peso') }}" min="0" step="0.1"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300"
-                            placeholder="Ej: 4.5">
+                        <label for="peso" class="vet-app-label">Peso (kg)</label>
+                        <input id="peso" type="number" name="peso" value="{{ old('peso') }}" min="0" step="0.1"
+                            class="vet-app-input mt-2" placeholder="Ej: 4.5">
                     </div>
 
-                    {{-- Microchip --}}
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1.5">Microchip</label>
-                        <input type="text" name="microchip" value="{{ old('microchip') }}"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300 @error('microchip') border-red-300 @enderror"
+                        <label for="microchip" class="vet-app-label">Microchip</label>
+                        <input id="microchip" type="text" name="microchip" value="{{ old('microchip') }}"
+                            class="vet-app-input mt-2 @error('microchip') border-rose-300 dark:border-rose-400/60 @enderror"
                             placeholder="Ej: MC123456789">
-                        @error('microchip')<p class="text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
+                        @error('microchip')<p class="mt-2 text-sm text-rose-500 dark:text-rose-300">{{ $message }}</p>@enderror
                     </div>
 
-                    {{-- Última visita --}}
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1.5">Última visita</label>
-                        <input type="date" name="ultima_visita" value="{{ old('ultima_visita') }}"
-                            class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-300">
+                        <label for="ultima_visita" class="vet-app-label">Ultima visita</label>
+                        <input id="ultima_visita" type="date" name="ultima_visita" value="{{ old('ultima_visita') }}"
+                            class="vet-app-input mt-2 dark:[color-scheme:dark]">
                     </div>
-
                 </div>
 
-                <div class="flex gap-3 pt-2">
-                    <button type="submit" class="text-white text-sm font-medium px-5 py-2.5 rounded-lg transition"
-                        style="background: linear-gradient(135deg, #7F77DD, #534AB7)">
-                        Guardar Paciente
-                    </button>
-                    <a href="{{ route('pacientes.index') }}"
-                        class="border border-gray-200 text-gray-400 text-sm px-5 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                <div class="flex flex-col-reverse gap-3 border-t border-slate-100 pt-5 dark:border-white/10 sm:flex-row sm:justify-end">
+                    <a href="{{ route('pacientes.index') }}" class="vet-app-button-secondary">
                         Cancelar
                     </a>
+                    <button type="submit" class="vet-app-button-primary">
+                        Guardar paciente
+                    </button>
                 </div>
-
             </form>
-        </div>
+        </section>
     </div>
-
 </x-app-layout>

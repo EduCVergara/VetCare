@@ -13,6 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'solo.admin' => \App\Http\Middleware\SoloAdmin::class,
+            'force.password.change' => \App\Http\Middleware\EnsurePasswordWasChanged::class,
+            'two.factor.confirmed' => \App\Http\Middleware\EnsureTwoFactorIsConfirmed::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

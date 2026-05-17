@@ -1,7 +1,6 @@
 import './bootstrap';
 import Swal from 'sweetalert2';
 import TomSelect from 'tom-select';
-import 'tom-select/dist/css/tom-select.css';
 
 window.Swal = Swal;
 window.TomSelect = TomSelect;
@@ -48,17 +47,36 @@ systemTheme.addEventListener('change', (event) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('[data-theme-toggle]').forEach(button => {
-        const syncLabel = () => {
-            const isDark = document.documentElement.classList.contains('dark');
+    const themeButtons = document.querySelectorAll('[data-theme-toggle]');
+    const syncThemeButtons = () => {
+        const isDark = document.documentElement.classList.contains('dark');
+        themeButtons.forEach(button => {
             button.setAttribute('aria-pressed', isDark ? 'true' : 'false');
             button.setAttribute('title', isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
-        };
+        });
+    };
 
-        syncLabel();
+    themeButtons.forEach(button => {
         button.addEventListener('click', () => {
             window.toggleVetCareTheme();
-            syncLabel();
+            syncThemeButtons();
+        });
+    });
+
+    syncThemeButtons();
+
+    document.querySelectorAll('[data-password-toggle]').forEach(button => {
+        const input = document.getElementById(button.dataset.passwordToggle);
+
+        if (!input) {
+            return;
+        }
+
+        button.addEventListener('click', () => {
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+            button.setAttribute('aria-label', isHidden ? 'Ocultar contraseña' : 'Mostrar contraseña');
+            input.focus();
         });
     });
 

@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tsPaciente.refreshOptions(false);
     };
 
-    if (selCliente) {
+    if (selCliente && !selCliente.tomselect) {
         tsCliente = new TomSelect(selCliente, {
             placeholder: 'Seleccionar cliente...',
             allowEmptyOption: true,
@@ -47,15 +47,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (selPaciente) {
+    if (selPaciente && !selPaciente.tomselect) {
         tsPaciente = new TomSelect(selPaciente, {
             placeholder: 'Seleccionar paciente...',
             allowEmptyOption: true,
             maxOptions: null,
         });
+    } else if (selPaciente?.tomselect) {
+        tsPaciente = selPaciente.tomselect;
     }
 
-    if (selEstado) {
+    if (selEstado && !selEstado.tomselect) {
         new TomSelect(selEstado, {
             allowEmptyOption: false,
             create: false,

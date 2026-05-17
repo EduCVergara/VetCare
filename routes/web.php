@@ -10,9 +10,15 @@ use App\Http\Controllers\UsuarioController;
 
 Route::get('/', fn() => redirect()->route('dashboard'));
 
-$authMiddleware = app()->environment('local')
-    ? ['auth']
-    : ['auth', 'verified'];
+$authMiddleware = ['auth', 'two.factor.confirmed'];
+
+if (config('vetcare.features.email_verification')) {
+    $authMiddleware[] = 'verified';
+}
+
+if (config('vetcare.features.force_password_change')) {
+    $authMiddleware[] = 'force.password.change';
+}
 
 Route::middleware($authMiddleware)->group(function () {
 
@@ -24,6 +30,7 @@ Route::middleware($authMiddleware)->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/two-factor', [ProfileController::class, 'updateTwoFactor'])->name('profile.two-factor.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('clientes', ClienteController::class)
